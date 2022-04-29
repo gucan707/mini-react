@@ -1,6 +1,6 @@
 export type VDom =
   | {
-      type: keyof HTMLElementTagNameMap;
+      type: keyof HTMLElementTagNameMap | Function;
       props: {
         [K in string]: any;
       } & {

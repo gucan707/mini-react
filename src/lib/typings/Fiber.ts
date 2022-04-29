@@ -6,7 +6,7 @@ export type Fiber =
   | ((
       | {
           // 普通的html标签
-          type: keyof HTMLElementTagNameMap;
+          type: keyof HTMLElementTagNameMap | Function;
           props:
             | {
                 [K in string]: any;
@@ -24,7 +24,7 @@ export type Fiber =
     ) & {
       sibling: Fiber;
       return: Fiber;
-      alternate: Fiber;
-      effectTag: EffectTag;
+      alternate: Fiber; // 保存上次渲染的fiber节点
+      effectTag: EffectTag; // 该节点发生了什么变化
     })
   | null;
