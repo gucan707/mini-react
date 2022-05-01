@@ -5,13 +5,19 @@ let count = 0;
 function add() {
   count++;
   console.log("+");
-  Recat.render(Hello(), document.querySelector("#root"));
+  Recat.render(
+    Recat.createElement(Hello, null),
+    document.querySelector("#root")
+  );
 }
 
 function minus() {
   count--;
   console.log("-");
-  Recat.render(Hello(), document.querySelector("#root"));
+  Recat.render(
+    Recat.createElement(Hello, null),
+    document.querySelector("#root")
+  );
 }
 
 function Hello() {
@@ -30,4 +36,4 @@ function Hello() {
   return hello;
 }
 
-Recat.render(Hello(), document.querySelector("#root"));
+Recat.render(Recat.createElement(Hello, null), document.querySelector("#root"));

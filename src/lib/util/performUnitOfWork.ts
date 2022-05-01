@@ -1,10 +1,11 @@
 import { Fiber } from "../typings/Fiber";
-import { performHostComponents } from "./performComponents";
+import { performFunctionComponents, performHostComponents } from "./performComponents";
 
 /** 负责完成当前任务，并返回下一任务 */
 export function performUnitOfWork(fiber: Fiber): Fiber {
   if (!fiber) return null;
   if (fiber.type instanceof Function) {
+    performFunctionComponents(fiber);
   } else {
     performHostComponents(fiber);
   }

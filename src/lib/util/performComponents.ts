@@ -1,9 +1,15 @@
 import { Fiber } from "../typings/Fiber";
+import { VDom } from "../typings/VDom";
 import { createDOMElement } from "./createDomElement";
 import { reconcileChildren } from "./reconcileChildren";
 
 export function performFunctionComponents(fiber: Fiber) {
-  if (!fiber || !(fiber.type instanceof Function)) return;
+  // 这里判断 TEXT_ELEMENT 是为了糊弄TS。。不知道为什么TS判断不出来type为Function时也有props
+  if (!fiber || fiber.type === "TEXT_ELEMENT") return;
+  if (!(fiber.type instanceof Function)) return;
+  const child = fiber.type(fiber.props) as VDom;
+  console.log(child);
+  reconcileChildren(fiber, [child]);
 }
 
 export function performHostComponents(fiber: Fiber) {

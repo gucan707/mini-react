@@ -5,11 +5,13 @@ import {
 } from "./getFiber";
 
 /** 将 fiber 节点的 children 进行 fiber 化，同时对 children 进行 diff */
-export function reconcileChildren(fiber: Fiber) {
+export function reconcileChildren(fiber: Fiber, children: VDom[] = []) {
   if (fiber.type === "TEXT_ELEMENT") return;
   // if (!fiber.props && !fiber.props.children) return;
   // 如果当前没有children也不能随便退出了，因为可能是children被删除，需要diff
-  const curChildren = ((fiber.props && fiber.props.children) || []) as VDom[];
+
+  let curChildren = children;
+  if (fiber?.props?.children?.length) curChildren = fiber.props.children;
 
   /** 上次渲染时的节点，若为null则说明是第一次挂载 */
   let oldFiber: Fiber = null;

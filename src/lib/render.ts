@@ -1,15 +1,10 @@
-import { Fiber, TEXT_ELEMENT } from "./typings/Fiber";
+import { Fiber } from "./typings/Fiber";
 import { VDom } from "./typings/VDom";
 import { commitWork } from "./util/commitWork";
-import {
-    getFiberInCreate, getFiberInDelete, getFiberInReplace, getFiberInSameType
-} from "./util/getFiber";
-import { performHostComponents } from "./util/performComponents";
 import { performUnitOfWork } from "./util/performUnitOfWork";
-import { reconcileChildren } from "./util/reconcileChildren";
 
 // 下一个处理的fiber节点，render时对其进行初始化修改
-let nextUnitOfWork: Fiber | null = null;
+let nextUnitOfWork: Fiber = null;
 
 // 需要渲染的树的根节点，render时进行初始化
 let wipRoot: Fiber = null;
@@ -50,6 +45,7 @@ function workLoop(deadline: IdleDeadline) {
 
 function commitRoot() {
   currentRoot = wipRoot;
-  commitWork(wipRoot);
+  if (wipRoot.type === "TEXT_ELEMENT") throw new Error("wipRoot type error");
+  commitWork(wipRoot.child);
   wipRoot = null;
 }
