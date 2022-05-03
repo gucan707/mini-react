@@ -8,7 +8,6 @@ export function performFunctionComponents(fiber: Fiber) {
   if (!fiber || fiber.type === "TEXT_ELEMENT") return;
   if (!(fiber.type instanceof Function)) return;
   const child = fiber.type(fiber.props) as VDom;
-  console.log(child);
   reconcileChildren(fiber, [child]);
 }
 
