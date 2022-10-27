@@ -32,14 +32,15 @@ export function reconcileChildren(fiber: Fiber, children: VDom[] = []) {
     // 若标签类型相同，则可继续复用之前的dom节点，但是文本节点则归为替换
     if (isSameType) {
       newFiber = getFiberInSameType(curVDom, oldFiber, fiber);
-    } else if (curVDom && !oldFiber) {
+    } else if (curVDom !== undefined && oldFiber === null) {
       // 当前节点存在而老节点不存在，说明为新建
       newFiber = getFiberInCreate(curVDom, fiber);
-    } else if (!curVDom && oldFiber) {
+    } else if (curVDom === undefined && oldFiber !== null) {
       // 当前节点不存在而老节点存在，说明为删除
       newFiber = getFiberInDelete(oldFiber);
     } else {
       // 二者均存在而类型不同，替换
+      // debugger;
       newFiber = getFiberInReplace(curVDom, oldFiber, fiber);
     }
 

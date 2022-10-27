@@ -2,6 +2,12 @@
 // 对于普通文本节点也不能仅 string 了事，文本节点也需要有return等指向
 export const TEXT_ELEMENT = "TEXT_ELEMENT";
 type EffectTag = "UPDATE" | "REPLACE" | "DELETE" | "CREATE" | "NO_EFFECT";
+export type StateHook = {
+  type: "state";
+  state: any;
+  setter: (action: any) => void;
+};
+
 export type Fiber =
   | ((
       | {
@@ -14,6 +20,7 @@ export type Fiber =
             | null;
           child: Fiber;
           stateNode: HTMLElement | null; // fiber对应的dom元素，create之前都是null
+          hooks?: StateHook[];
         }
       | {
           // 文本节点

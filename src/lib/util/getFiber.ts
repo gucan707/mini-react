@@ -22,6 +22,10 @@ export function getFiberInSameType(
       alternate: oldFiber,
     };
   } else {
+    if (oldFiber.type === "TEXT_ELEMENT")
+      throw new Error(
+        "oldFiber has different type with newFiber, but getFiber step into getFiberInSameType"
+      );
     newFiber = {
       type: curVDom.type,
       return: returnFiber,
@@ -31,6 +35,7 @@ export function getFiberInSameType(
       effectTag: "UPDATE",
       alternate: oldFiber,
       props: curVDom.props,
+      hooks: oldFiber.hooks,
     };
   }
 

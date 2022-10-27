@@ -33,14 +33,21 @@ export function render(vDom: VDom, container: HTMLElement) {
   requestIdleCallback(workLoop);
 }
 
+export function rerender() {
+  // debugger;
+  wipRoot = { ...currentRoot };
+  wipRoot.alternate = currentRoot;
+  nextUnitOfWork = wipRoot;
+}
+
 function workLoop(deadline: IdleDeadline) {
   let shouldYield = false; // 是否需要让出控制权
   while (nextUnitOfWork && !shouldYield) {
     nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
-    shouldYield = deadline.timeRemaining() < 5; // 如果剩余时间小于5ms则让出控制权
+    shouldYield = deadline.timeRemaining() < 1; // 如果剩余时间小于5ms则让出控制权
   }
   if (!nextUnitOfWork && wipRoot) commitRoot();
-  requestIdleCallback(workLoop); // 再次添加回调，等下一次浏览器空闲时执行
+  return requestIdleCallback(workLoop); // 再次添加回调，等下一次浏览器空闲时执行
 }
 
 function commitRoot() {

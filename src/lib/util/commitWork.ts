@@ -19,6 +19,9 @@ export function commitWork(fiber: Fiber) {
         parentDom.appendChild(fiber.stateNode);
         break;
       case "REPLACE":
+        console.log(fiber.alternate.stateNode === parentDom.childNodes[0]);
+        console.log(fiber.alternate.stateNode, parentDom.childNodes[0]);
+
         parentDom.replaceChild(fiber.stateNode, fiber.alternate.stateNode);
         break;
       case "UPDATE":
